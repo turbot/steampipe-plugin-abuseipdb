@@ -24,7 +24,7 @@ select
   abuse_confidence_score,
   last_reported_at
 from
-  abuseipdb_check
+  abuseipdb_check_ip
 where
   ip_address = '76.76.21.21'
 ```

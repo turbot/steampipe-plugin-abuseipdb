@@ -1,4 +1,4 @@
-# Table: abuseipdb_check
+# Table: abuseipdb_check_ip
 
 Query the abuse confidence score and other information about an IP address.
 
@@ -12,7 +12,7 @@ select
   abuse_confidence_score,
   last_reported_at
 from
-  abuseipdb_check
+  abuseipdb_check_ip
 where
   ip_address = '76.76.21.21'
 ```
@@ -25,7 +25,7 @@ select
   report ->> 'comment' as comment,
   report ->> 'categories' as categories
 from
-  abuseipdb_check,
+  abuseipdb_check_ip,
   jsonb_array_elements(reports) as report
 where
   ip_address = '76.76.21.21'
@@ -40,7 +40,7 @@ select
   c.title,
   count(*)
 from
-  abuseipdb_check as ch,
+  abuseipdb_check_ip as ch,
   jsonb_array_elements(ch.reports) as report,
   jsonb_array_elements(report->'categories') as category_id,
   abuseipdb_category as c

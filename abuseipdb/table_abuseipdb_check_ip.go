@@ -7,12 +7,12 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/plugin"
 )
 
-func tableAbuseIPDbCheck(ctx context.Context) *plugin.Table {
+func tableAbuseIPDbCheckIP(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "abuseipdb_check",
+		Name:        "abuseipdb_check_ip",
 		Description: "List all checks for a given IP address.",
 		List: &plugin.ListConfig{
-			Hydrate: listCheck,
+			Hydrate: listCheckIP,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "ip_address"},
 				{Name: "max_age_in_days", Require: plugin.Optional},
@@ -39,10 +39,10 @@ func tableAbuseIPDbCheck(ctx context.Context) *plugin.Table {
 	}
 }
 
-func listCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+func listCheckIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("abuseipdb_check.listCheck", "connection_error", err)
+		plugin.Logger(ctx).Error("abuseipdb_check.listCheckIP", "connection_error", err)
 		return nil, err
 	}
 
@@ -56,9 +56,9 @@ func listCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		maxAge = int(i)
 	}
 
-	data, err := conn.Check(ctx, ipAddress, maxAge)
+	data, err := conn.CheckIP(ctx, ipAddress, maxAge)
 	if err != nil {
-		plugin.Logger(ctx).Error("abuseipdb_check.listCheck", "query_error", err)
+		plugin.Logger(ctx).Error("abuseipdb_check.listCheckIP", "query_error", err)
 		return nil, err
 	}
 	d.StreamListItem(ctx, data)

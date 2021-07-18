@@ -15,59 +15,6 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/plugin"
 )
 
-type errorObj struct {
-	Detail string `json:"detail"`
-	Status int    `json:"status"`
-}
-
-type abuseipdbCheckResponse struct {
-	Data   abuseipdbCheckData `json:"data,omitempty"`
-	Errors []errorObj         `json:"errors,omitempty"`
-}
-
-type abuseipdbCheckData struct {
-	IPAddress            string                 `json:"ipAddress"`
-	MaxAgeInDays         int                    `json:"maxAgeInDays,omitempty"`
-	IsPublic             bool                   `json:"isPublic"`
-	IPVersion            int                    `json:"ipVersion"`
-	IsWhitelisted        bool                   `json:"isWhitelisted"`
-	AbuseConfidenceScore int                    `json:"abuseConfidenceScore"`
-	CountryCode          string                 `json:"countryCode"`
-	UsageType            string                 `json:"usageType"`
-	Isp                  string                 `json:"isp"`
-	Domain               string                 `json:"domain"`
-	TotalReports         int                    `json:"totalReports"`
-	NumDistinctUsers     int                    `json:"numDistinctUsers"`
-	LastReportedAt       string                 `json:"lastReportedAt"`
-	Reports              []abuseipdbCheckReport `json:"reports"`
-}
-
-type abuseipdbCheckReport struct {
-	ReportedAt          string `json:"reportedAt"`
-	Comment             string `json:"comment"`
-	Categories          []int  `json:"categories"`
-	ReporterID          int    `json:"reporterId"`
-	ReporterCountryCode string `json:"reporterCountryCode"`
-	ReporterCountryName string `json:"reporterCountryName"`
-}
-
-type abuseipdbDenyListItem struct {
-	IPAddress            string `json:"ipAddress"`
-	AbuseConfidenceScore int    `json:"abuseConfidenceScore"`
-	LastReportedAt       string `json:"lastReportedAt"`
-	ConfidenceMinimum    int    `json:"confidenceMinimum,omitempty"`
-}
-
-type abuseipdbDenyListResponse struct {
-	Data   []abuseipdbDenyListItem `json:"data"`
-	Errors []errorObj              `json:"errors,omitempty"`
-}
-
-type abuseipdbClient struct {
-	HTTPClient *http.Client
-	APIKey     string
-}
-
 func (c *abuseipdbClient) Get(ctx context.Context, path string, params url.Values) ([]byte, error) {
 
 	bytes := []byte{}
@@ -106,7 +53,7 @@ func combineErrors(errs []errorObj) error {
 	return fmt.Errorf(strings.Join(errStrings, "\n"))
 }
 
-func (c *abuseipdbClient) Check(ctx context.Context, ipAddress string, maxAgeInDays int) (abuseipdbCheckData, error) {
+func (c *abuseipdbClient) CheckIP(ctx context.Context, ipAddress string, maxAgeInDays int) (abuseipdbCheckData, error) {
 	v := url.Values{}
 	v.Set("ipAddress", ipAddress)
 	v.Set("maxAgeInDays", fmt.Sprintf("%d", maxAgeInDays))
@@ -126,6 +73,27 @@ func (c *abuseipdbClient) Check(ctx context.Context, ipAddress string, maxAgeInD
 	// Set the max age according to the request, for easier matching in the result row
 	result.Data.MaxAgeInDays = maxAgeInDays
 	return result.Data, nil
+}
+
+func (c *abuseipdbClient) CheckCidr(ctx context.Context, cidr string, maxAgeInDays int) ([]abuseipdbCheckReportedAddress, error) {
+	v := url.Values{}
+	v.Set("network", cidr)
+	v.Set("maxAgeInDays", fmt.Sprintf("%d", maxAgeInDays))
+	bytes, err := c.Get(ctx, "/check-block", v)
+	if err != nil {
+		return []abuseipdbCheckReportedAddress{}, err
+	}
+	result := abuseipdbCheckCidrResponse{}
+	err = json.Unmarshal(bytes, &result)
+	if err != nil {
+		return []abuseipdbCheckReportedAddress{}, err
+	}
+	if result.Errors != nil {
+		return []abuseipdbCheckReportedAddress{}, combineErrors(result.Errors)
+	}
+	plugin.Logger(ctx).Warn("CheckCidr", "result", result)
+	// Set the max age according to the request, for easier matching in the result row
+	return result.Data.ReportedAddress, nil
 }
 
 func (c *abuseipdbClient) DenyList(ctx context.Context, confidenceMinimum int, limit *int64) ([]abuseipdbDenyListItem, error) {

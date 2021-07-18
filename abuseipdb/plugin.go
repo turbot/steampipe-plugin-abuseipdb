@@ -16,9 +16,10 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		},
 		DefaultTransform: transform.FromGo(),
 		TableMap: map[string]*plugin.Table{
-			"abuseipdb_category": tableAbuseIPDbCategory(ctx),
-			"abuseipdb_check":    tableAbuseIPDbCheck(ctx),
-			"abuseipdb_deny":     tableAbuseIPDbDeny(ctx),
+			"abuseipdb_category":   tableAbuseIPDbCategory(ctx),
+			"abuseipdb_check_cidr": tableAbuseIPDbCheckCidr(ctx),
+			"abuseipdb_check_ip":   tableAbuseIPDbCheckIP(ctx),
+			"abuseipdb_deny":       tableAbuseIPDbDeny(ctx),
 		},
 	}
 	return p
