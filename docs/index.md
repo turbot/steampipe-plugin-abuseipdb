@@ -2,7 +2,7 @@
 organization: Turbot
 category: ["security"]
 icon_url: "/images/plugins/turbot/abuseipdb.svg"
-brand_color: "#eeeeee"
+brand_color: "#4e7e14"
 display_name: "AbuseIPDB"
 short_name: "abuseipdb"
 description: "Steampipe plugin to query IP address abuse data and more from AbuseIPDB."
