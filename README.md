@@ -40,7 +40,7 @@ Prerequisites:
 Clone:
 
 ```sh
-git clone git@github.com:turbot/steampipe-plugin-abuseipdb
+git clone https://github.com/turbot/steampipe-plugin-abuseipdb.git
 cd steampipe-plugin-abuseipdb
 ```
 
