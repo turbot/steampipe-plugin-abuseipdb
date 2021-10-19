@@ -14,7 +14,7 @@ type abuseipdbCheckResponse struct {
 
 type abuseipdbCheckData struct {
 	IPAddress            string                 `json:"ipAddress"`
-	MaxAgeInDays         int                    `json:"maxAgeInDays,omitempty"`
+	MaxAgeInDays         *int                   `json:"maxAgeInDays,omitempty"`
 	IsPublic             bool                   `json:"isPublic"`
 	IPVersion            int                    `json:"ipVersion"`
 	IsWhitelisted        bool                   `json:"isWhitelisted"`
@@ -25,7 +25,7 @@ type abuseipdbCheckData struct {
 	Domain               string                 `json:"domain"`
 	TotalReports         int                    `json:"totalReports"`
 	NumDistinctUsers     int                    `json:"numDistinctUsers"`
-	LastReportedAt       string                 `json:"lastReportedAt"`
+	LastReportedAt       *string                `json:"lastReportedAt,omitempty"`
 	Reports              []abuseipdbCheckReport `json:"reports"`
 }
 

@@ -71,7 +71,7 @@ func (c *abuseipdbClient) CheckIP(ctx context.Context, ipAddress string, maxAgeI
 		return abuseipdbCheckData{}, combineErrors(result.Errors)
 	}
 	// Set the max age according to the request, for easier matching in the result row
-	result.Data.MaxAgeInDays = maxAgeInDays
+	result.Data.MaxAgeInDays = &maxAgeInDays
 	return result.Data, nil
 }
 
@@ -91,7 +91,6 @@ func (c *abuseipdbClient) CheckCidr(ctx context.Context, cidr string, maxAgeInDa
 	if result.Errors != nil {
 		return []abuseipdbCheckReportedAddress{}, combineErrors(result.Errors)
 	}
-	plugin.Logger(ctx).Warn("CheckCidr", "result", result)
 	// Set the max age according to the request, for easier matching in the result row
 	return result.Data.ReportedAddress, nil
 }
