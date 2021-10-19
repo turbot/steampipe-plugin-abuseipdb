@@ -1,3 +1,14 @@
+## v0.0.2 [2021-10-18]
+
+_Enhancements_
+
+- Update plugin SDK to v1.7.0
+
+_Bug fixes_
+
+- Handle null for last_reported_at column [#1](https://github.com/turbot/steampipe-plugin-abuseipdb/issues/1)
+
+
 ## v0.0.1 [2021-07-20]
 
 _What's new?_
