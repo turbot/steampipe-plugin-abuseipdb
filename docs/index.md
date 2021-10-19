@@ -51,10 +51,6 @@ Download and install the latest AbuseIPDB plugin:
 steampipe plugin install abuseipdb
 ```
 
-### Credentials
-
-No credentials are required.
-
 ### Configuration
 
 Installing the latest abuseipdb plugin will create a config file (`~/.steampipe/config/abuseipdb.spc`) with a single connection named `abuseipdb`:
