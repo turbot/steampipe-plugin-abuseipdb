@@ -129,10 +129,9 @@ func connect(_ context.Context, d *plugin.QueryData) (*abuseipdbClient, error) {
 
 	// Prefer config settings
 	abuseipdbConfig := GetConfig(d.Connection)
-	if &abuseipdbConfig != nil {
-		if abuseipdbConfig.APIKey != nil {
-			apiKey = *abuseipdbConfig.APIKey
-		}
+	
+	if abuseipdbConfig.APIKey != nil {
+		apiKey = *abuseipdbConfig.APIKey
 	}
 
 	// Defaults
