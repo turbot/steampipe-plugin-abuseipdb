@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
@@ -42,7 +42,7 @@ func (c *abuseipdbClient) Get(ctx context.Context, path string, params url.Value
 
 	defer resp.Body.Close()
 
-	return ioutil.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
 }
 
 func combineErrors(errs []errorObj) error {
