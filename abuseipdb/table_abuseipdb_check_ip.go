@@ -3,8 +3,8 @@ package abuseipdb
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func tableAbuseIPDbCheckIP(ctx context.Context) *plugin.Table {
@@ -46,7 +46,7 @@ func listCheckIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		return nil, err
 	}
 
-	equalQuals := d.KeyColumnQuals
+	equalQuals := d.EqualsQuals
 	ipAddress := equalQuals["ip_address"].GetInetValue().GetAddr()
 
 	// Default to 90 days max age, but use key column if provided
