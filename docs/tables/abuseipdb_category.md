@@ -16,11 +16,20 @@ The `abuseipdb_category` table provides insights into the categories of IP addre
 ### List the categories
 Explore all the categories available in the AbuseIPDB to understand the types of abusive behavior that are tracked, allowing for more efficient and targeted security measures.
 
-```sql
+```sql+postgres
 select
   *
 from
   abuseipdb_category
 order by
-  id
+  id;
+```
+
+```sql+sqlite
+select
+  *
+from
+  abuseipdb_category
+order by
+  id;
 ```

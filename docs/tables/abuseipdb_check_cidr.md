@@ -16,7 +16,7 @@ The `abuseipdb_check_cidr` table provides insights into CIDR reports within Abus
 ### List information about IPs in a CIDR range
 Identify instances where specific IP addresses within a certain range have been reported for abuse. This can help in assessing potential security threats and taking necessary preventive actions.
 
-```sql
+```sql+postgres
 select
   ip_address,
   abuse_confidence_score,
@@ -25,5 +25,9 @@ select
 from
   abuseipdb_check_cidr
 where
-  cidr = '76.76.21.20/30'
+  cidr = '76.76.21.20/30';
+```
+
+```sql+sqlite
+Error: SQLite does not support CIDR operations.
 ```

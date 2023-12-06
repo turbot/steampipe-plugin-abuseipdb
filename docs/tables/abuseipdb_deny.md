@@ -11,26 +11,46 @@ AbuseIPDB is a project dedicated to helping combat the spread of hackers, spamme
 
 The `abuseipdb_deny` table provides insights into IP addresses that have been reported for abusive activities on the AbuseIPDB platform. As a network administrator or security analyst, explore details about these IP addresses through this table, including their abuse confidence score, country of origin, and associated reports. Utilize it to uncover information about potential security threats, such as those from known malicious sources, for effective threat intelligence and preventive measures.
 
+**Important Notes**
+- If not specified, the default `confidence_minimum` is 90.
+- The free tier limit is 5 requests per day.
+
 ## Examples
 
 ### Basic deny list (default confidence minimum of 90)
 Explore which IP addresses are considered malicious based on a default confidence score of 90 or above. This helps in enhancing your network's security by blocking potentially harmful traffic.
 
-```sql
+```sql+postgres
 select
   *
 from
-  abuseipdb_deny
+  abuseipdb_deny;
+```
+
+```sql+sqlite
+select
+  *
+from
+  abuseipdb_deny;
 ```
 
 ### List IPs with a confidence minimum of 95
 Discover the segments that have a high confidence level of 95, allowing you to focus on the most reliable data for your security analysis. This is particularly useful when you need to prioritize actions based on the degree of certainty in the data.
 
-```sql
+```sql+postgres
 select
   *
 from
   abuseipdb_deny
 where
-  confidence_minimum = 95
+  confidence_minimum = 95;
+```
+
+```sql+sqlite
+select
+  *
+from
+  abuseipdb_deny
+where
+  confidence_minimum = 95;
 ```
