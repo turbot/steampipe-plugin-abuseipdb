@@ -8,6 +8,7 @@ short_name: "abuseipdb"
 description: "Steampipe plugin to query IP address abuse data and more from AbuseIPDB."
 og_description: "Query AbuseIPDB with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/abuseipdb-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # AbuseIPDB + Steampipe
