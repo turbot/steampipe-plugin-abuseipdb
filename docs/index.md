@@ -65,7 +65,4 @@ connection "abuseipdb" {
 
 - `api_key` - Free API key for authenticated access.
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-abuseipdb
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
