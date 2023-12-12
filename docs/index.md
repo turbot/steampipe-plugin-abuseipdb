@@ -8,13 +8,14 @@ short_name: "abuseipdb"
 description: "Steampipe plugin to query IP address abuse data and more from AbuseIPDB."
 og_description: "Query AbuseIPDB with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/abuseipdb-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # AbuseIPDB + Steampipe
 
 [AbuseIPDB](https://abuseipdb.com) allows users to report and identify IP addresses that have been associated with malicious activity online.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 Query IP address base data from AbuseIPDB:
 
@@ -64,7 +65,4 @@ connection "abuseipdb" {
 
 - `api_key` - Free API key for authenticated access.
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-abuseipdb
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
