@@ -15,7 +15,7 @@ engines: ["steampipe", "sqlite", "postgres", "export"]
 
 [AbuseIPDB](https://abuseipdb.com) allows users to report and identify IP addresses that have been associated with malicious activity online.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 Query IP address base data from AbuseIPDB:
 
