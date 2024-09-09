@@ -50,7 +50,7 @@ func combineErrors(errs []errorObj) error {
 	for _, i := range errs {
 		errStrings = append(errStrings, fmt.Sprintf("HTTP %d: %s", i.Status, i.Detail))
 	}
-	return fmt.Errorf(strings.Join(errStrings, "\n"))
+	return errors.New(strings.Join(errStrings, "\n"))
 }
 
 func (c *abuseipdbClient) CheckIP(ctx context.Context, ipAddress string, maxAgeInDays int) (abuseipdbCheckData, error) {
@@ -129,7 +129,7 @@ func connect(_ context.Context, d *plugin.QueryData) (*abuseipdbClient, error) {
 
 	// Prefer config settings
 	abuseipdbConfig := GetConfig(d.Connection)
-	
+
 	if abuseipdbConfig.APIKey != nil {
 		apiKey = *abuseipdbConfig.APIKey
 	}
