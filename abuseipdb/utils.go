@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 func (c *abuseipdbClient) Get(ctx context.Context, path string, params url.Values) ([]byte, error) {
@@ -40,7 +40,7 @@ func (c *abuseipdbClient) Get(ctx context.Context, path string, params url.Value
 		return bytes, err
 	}
 
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	return io.ReadAll(resp.Body)
 }
@@ -116,11 +116,11 @@ func (c *abuseipdbClient) DenyList(ctx context.Context, confidenceMinimum int, l
 	return result.Data, nil
 }
 
-func connect(_ context.Context, d *plugin.QueryData) (*abuseipdbClient, error) {
+func connect(ctx context.Context, d *plugin.QueryData) (*abuseipdbClient, error) {
 
 	// Load connection from cache, which preserves throttling protection etc
 	cacheKey := "abuseipdb"
-	if cachedData, ok := d.ConnectionManager.Cache.Get(cacheKey); ok {
+	if cachedData, ok := d.ConnectionCache.Get(ctx, cacheKey); ok {
 		return cachedData.(*abuseipdbClient), nil
 	}
 
@@ -152,7 +152,7 @@ func connect(_ context.Context, d *plugin.QueryData) (*abuseipdbClient, error) {
 	}
 
 	// Save to cache
-	d.ConnectionManager.Cache.Set(cacheKey, conn)
+	_ = d.ConnectionCache.Set(ctx, cacheKey, conn)
 
 	return conn, nil
 }
